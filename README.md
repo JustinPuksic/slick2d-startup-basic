@@ -15,4 +15,4 @@ Requirements:
 
 1. Slick2D Framework
 2. Java Ogg Vorbis decoder
-
+3. Own Graphics and Sounds
