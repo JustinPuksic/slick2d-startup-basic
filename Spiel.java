@@ -1,3 +1,5 @@
+
+
 import java.util.LinkedList;
 
 import org.newdawn.slick.*;
@@ -11,13 +13,14 @@ public class Spiel extends BasicGame {
 	protected LinkedList<Schuss> schuss_anzahl;
 	private Music music;
 	private Sound sound;
+	private int cooldown;
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
+		level = new Image("hintergrund.png");
 		monster = new Monster[10];
 		steuerung = gc.getInput();
-		level = new Image("hintergrund.png");
-		player = new Player(740, 395, steuerung, "mario.png");
+		player = new Player(740, 395, steuerung, "ghost.png");
 		for (int i = 0; i < monster.length; i++) {
 			monster[i] = new Monster(400 + (i * 50), 428, "goomba.png");
 		}
@@ -31,16 +34,20 @@ public class Spiel extends BasicGame {
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 
+		cooldown += delta;
+
+		player.update();
+
 		for (int i = 0; i < monster.length; i++) {
 			monster[i].laufen(3);
 
 		}
 
-		player.laufen(3);
+		player.laufen(3, delta);
 
-		if (steuerung.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-
-			schuss_anzahl.add(new Schuss(player.x_Pos + 5, player.y_Pos,
+		if (steuerung.isMousePressed(Input.MOUSE_LEFT_BUTTON)
+				&& cooldown < 10000) {
+			schuss_anzahl.add(new Schuss(player.x_Pos + 40, player.y_Pos,
 					"Schuss.png"));
 			sound.play();
 
@@ -59,13 +66,16 @@ public class Spiel extends BasicGame {
 
 	@Override
 	public void render(GameContainer gc, Graphics gfx) throws SlickException {
-		gfx.setColor(Color.red);
+		gfx.setColor(Color.magenta);
 		level.draw(0, 0);
+
+		gfx.drawString("Zeit: " + cooldown, 10, 50);
+
 		for (int i = 0; i < monster.length; i++) {
 			monster[i].draw();
 			gfx.draw(monster[i].getHitbox());
 			if (monster[i].getHitbox().intersects(player.getHitbox())) {
-				gfx.drawString("Treffer", 10, 40);
+				gfx.drawString("Treffer", 10, 30);
 			}
 		}
 		player.draw();
