@@ -1,4 +1,5 @@
 
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
 
@@ -8,7 +9,8 @@ public abstract class Gameobject {
 	protected int y_Pos;
 	protected Image gfx_char;
 	protected Shape hitbox;
-	
+	protected SpriteSheet sheet;
+	protected Animation ani;
 
 	public Gameobject(int x_Pos, int y_Pos) {
 		this.x_Pos = x_Pos;
