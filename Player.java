@@ -1,5 +1,4 @@
 
-
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
 
@@ -15,8 +14,8 @@ public class Player extends Gameobject {
 		this.steuerung = steuerung;
 		sheet = new SpriteSheet(Imagepath, 175, 175);
 		ani = new Animation(sheet,20);
-		this.hitbox = new Rectangle(x_Pos, y_Pos, ani.getWidth() -75,
-				ani.getHeight()-75);
+		this.hitbox = new Rectangle(x_Pos, y_Pos, ani.getWidth() -125,
+				ani.getHeight()-125);
 	}
 
 	public void laufen(int geschwindigkeit, int delta) {
@@ -37,7 +36,7 @@ public class Player extends Gameobject {
 		// Hier steht die Bewegung auf vertikale Ebene.
 		// Pfeiltaste oben
 		if (steuerung.isKeyPressed(Input.KEY_W) && !sprung) {
-			speed_v = -0.5f * delta;
+			speed_v = -0.3f * delta;
 			sprung = true;
 
 		}
@@ -55,7 +54,7 @@ public class Player extends Gameobject {
 		// Sprunggrenze Y
 		if (y_Pos <= 250) {
 			sprung = false;
-			speed_v = +1.5f * delta;
+			speed_v = +0.3f * delta;
 		}
 
 		hitbox.setLocation(x_Pos, y_Pos);
@@ -63,7 +62,7 @@ public class Player extends Gameobject {
 
 	public void draw() {
 
-		ani.draw(x_Pos, y_Pos,100,100);
+		ani.draw(x_Pos, y_Pos,50,50);
 	}
 
 	public void update() {
